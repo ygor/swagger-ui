@@ -2,9 +2,9 @@
 <td>
 	{{#if isBody}}
 		{{#if defaultValue}}
-			<textarea class='body-textarea' placeholder='(required)' name='{{name}}'>{{defaultValue}}</textarea>
+		 	<input minlength='0' name='{{name}}' placeholder='(required)' type='text' value=''/>
 		{{else}}
-		    <textarea class='body-textarea' placeholder='(required)' name='{{name}}'></textarea>
+		 	<input minlength='0' name='{{name}}' placeholder='(required)' type='text' value=''/>
 		{{/if}}
 		
 	{{else}}
