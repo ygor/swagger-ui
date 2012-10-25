@@ -44,13 +44,6 @@ class OperationView extends Backbone.View
         if(o.value? && jQuery.trim(o.value).length > 0)
           map[o.name] = o.value
 
-      bodyParam = null
-      for param in @model.parameters
-        if param.paramType is 'body'
-          bodyParam = map[param.name]
-
-      log "bodyParam = " + bodyParam 
-
       headerParams = null
       invocationUrl = 
         if @model.supportHeaderParams()
@@ -69,7 +62,8 @@ class OperationView extends Backbone.View
         type: @model.httpMethod
         url: invocationUrl
         headers: headerParams
-        data: bodyParam
+        data: JSON.stringify(map)
+        processData: false
         dataType: 'json'
         error: (xhr, textStatus, error) =>
           @showErrorStatus(xhr, textStatus, error)
@@ -79,7 +73,7 @@ class OperationView extends Backbone.View
           @showCompleteStatus(data)
 
       obj.contentType = "application/json" if (obj.type.toLowerCase() == "post" or obj.type.toLowerCase() == "put" or obj.type.toLowerCase() == "patch")
-    
+
       jQuery.ajax(obj)
       false
       # $.getJSON(invocationUrl, (r) => @showResponse(r)).complete((r) => @showCompleteStatus(r)).error (r) => @showErrorStatus(r)
